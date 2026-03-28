@@ -34,6 +34,15 @@ var gfmSpecTests = []parseTest{
 	{"task1", "- [ ] \n", "<ul>\n<li>[ ]</li>\n</ul>\n"},
 	{"task0", "- [ ]\n", "<ul>\n<li>[ ]</li>\n</ul>\n"},
 
+	// multi-state task list items https://github.com/88250/lute/issues/221
+	{"task_cancelled", "- [-] cancelled task\n", "<ul>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\"-\" /> cancelled task</li>\n</ul>\n"},
+	{"task_in_progress", "- [/] in progress\n", "<ul>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\"/\" /> in progress</li>\n</ul>\n"},
+	{"task_deferred", "- [>] deferred task\n", "<ul>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\">\" /> deferred task</li>\n</ul>\n"},
+	{"task_important", "- [!] important task\n", "<ul>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\"!\" /> important task</li>\n</ul>\n"},
+	{"task_multi_state_mixed", "- [x] done\n- [ ] todo\n- [-] cancelled\n- [/] in progress\n", "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\" data-task=\"x\" /> done</li>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\" \" /> todo</li>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\"-\" /> cancelled</li>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\"/\" /> in progress</li>\n</ul>\n"},
+	{"task_custom_marker", "- [?] question\n", "<ul>\n<li><input disabled=\"\" type=\"checkbox\" data-task=\"?\" /> question</li>\n</ul>\n"},
+	{"task_no_space_after_bracket", "- [-]no space\n", "<ul>\n<li>[-]no space</li>\n</ul>\n"},
+
 	// gfm spec inline-level cases
 
 	{"gfm491", "~~Hi~~ Hello, world!\n", "<p><del>Hi</del> Hello, world!</p>\n"},
