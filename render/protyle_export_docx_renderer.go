@@ -1480,14 +1480,11 @@ func (r *ProtyleExportDocxRenderer) renderListItem(node *ast.Node, entering bool
 
 func (r *ProtyleExportDocxRenderer) renderTaskListItemMarker(node *ast.Node, entering bool) ast.WalkStatus {
 	if entering {
-		marker := node.EffectiveTaskListItemMarker()
-		prefix := "☐ "
 		if node.TaskListItemChecked {
-			prefix = "☑ "
-		} else if marker != ' ' {
-			prefix = "[" + string(marker) + "] "
+			node.Next.PrependChild(&ast.Node{Type: ast.NodeText, Tokens: []byte("☑ ")})
+		} else {
+			node.Next.PrependChild(&ast.Node{Type: ast.NodeText, Tokens: []byte("☐ ")})
 		}
-		node.Next.PrependChild(&ast.Node{Type: ast.NodeText, Tokens: []byte(prefix)})
 	}
 	return ast.WalkContinue
 }
