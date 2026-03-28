@@ -576,13 +576,7 @@ func (lute *Lute) genASTByVditorIRDOM(n *html.Node, tree *parse.Tree) {
 		}
 		node.Type = ast.NodeTaskListItemMarker
 		node.TaskListItemChecked = lute.hasAttr(n, "checked")
-		if dataTask := util.DomAttrValue(n, "data-task"); 1 == len(dataTask) {
-			node.TaskListItemMarker = dataTask[0]
-		} else if node.TaskListItemChecked {
-			node.TaskListItemMarker = 'X'
-		} else {
-			node.TaskListItemMarker = ' '
-		}
+		node.TaskListItemMarker = ast.ResolveTaskListItemMarker(util.DomAttrValue(n, "data-task"), node.TaskListItemChecked)
 		tree.Context.Tip.AppendChild(node)
 		if nil != node.Parent.Parent.Parent && nil != node.Parent.Parent.Parent.ListData { // ul.li.p.input
 			node.Parent.Parent.Parent.ListData.Typ = 3

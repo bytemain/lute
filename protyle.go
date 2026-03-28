@@ -912,13 +912,7 @@ func (lute *Lute) genASTByBlockDOM(n *html.Node, tree *parse.Tree) {
 			if 3 == tree.Context.Tip.ListData.Typ { // 任务列表
 				checked := strings.Contains(util.DomAttrValue(n.Parent, "class"), "protyle-task--done")
 				markerNode := &ast.Node{Type: ast.NodeTaskListItemMarker, TaskListItemChecked: checked}
-				if dataTask := util.DomAttrValue(n.Parent, "data-task"); 1 == len(dataTask) {
-					markerNode.TaskListItemMarker = dataTask[0]
-				} else if checked {
-					markerNode.TaskListItemMarker = 'X'
-				} else {
-					markerNode.TaskListItemMarker = ' '
-				}
+				markerNode.TaskListItemMarker = ast.ResolveTaskListItemMarker(util.DomAttrValue(n.Parent, "data-task"), checked)
 				tree.Context.Tip.AppendChild(markerNode)
 			}
 		}
@@ -1267,13 +1261,7 @@ func (lute *Lute) genASTByBlockDOM(n *html.Node, tree *parse.Tree) {
 		if ast.NodeListItem == tree.Context.Tip.Type && atom.Input == n.DataAtom {
 			node.Type = ast.NodeTaskListItemMarker
 			node.TaskListItemChecked = lute.hasAttr(n, "checked")
-			if dataTask := util.DomAttrValue(n, "data-task"); 1 == len(dataTask) {
-				node.TaskListItemMarker = dataTask[0]
-			} else if node.TaskListItemChecked {
-				node.TaskListItemMarker = 'X'
-			} else {
-				node.TaskListItemMarker = ' '
-			}
+			node.TaskListItemMarker = ast.ResolveTaskListItemMarker(util.DomAttrValue(n, "data-task"), node.TaskListItemChecked)
 			tree.Context.Tip.AppendChild(node)
 			return
 		}

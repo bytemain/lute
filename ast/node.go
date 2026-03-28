@@ -161,6 +161,18 @@ func (n *Node) EffectiveTaskListItemMarker() byte {
 	return ' '
 }
 
+// ResolveTaskListItemMarker 从 data-task 属性值和 checked 状态推导任务列表标记字符。
+// 在 HTML → AST 转换中使用，避免重复代码。
+func ResolveTaskListItemMarker(dataTask string, checked bool) byte {
+	if 1 == len(dataTask) {
+		return dataTask[0]
+	}
+	if checked {
+		return 'X'
+	}
+	return ' '
+}
+
 const (
 	CalloutTypeNote      = "NOTE"
 	CalloutTypeTip       = "TIP"
